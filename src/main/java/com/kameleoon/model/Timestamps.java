@@ -6,9 +6,8 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "timestamps")
 @Data
-public class QuoteTimeStamp {
+public class Timestamps {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +15,15 @@ public class QuoteTimeStamp {
 
     @Column(name = "pressed_at")
     private Timestamp pressedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quote_id")
+    private Quote quote;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private int score;
+
 }

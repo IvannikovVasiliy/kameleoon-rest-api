@@ -1,37 +1,28 @@
 package com.kameleoon.controller;
 
-import com.kameleoon.model.QuoteTimeStamp;
-import com.kameleoon.repository.QuoteRepository;
+import com.kameleoon.model.QuoteModel;
+import com.kameleoon.service.QuoteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 @RestController
 @RequestMapping("/quote")
 @RequiredArgsConstructor
 public class QuoteController {
 
-    private final QuoteRepository quoteRepository;
+    private final QuoteService quoteService;
 
     @GetMapping
-    public Timestamp getAllQuotes() {
-        QuoteTimeStamp quoteTimeStamp = new QuoteTimeStamp();
-        quoteTimeStamp.setPressedAt(new Timestamp(System.currentTimeMillis()));
-
-        return null;
+    public List<QuoteModel> getAllQuotes() {
+        return quoteService.getAllQuotes();
     }
 
     @PostMapping
-    public Timestamp postQuotes() {
-        QuoteTimeStamp quoteTimeStamp = new QuoteTimeStamp();
-        quoteTimeStamp.setPressedAt(new Timestamp(System.currentTimeMillis()));
+    public String postQuotes(@RequestBody QuoteModel quoteModel) {
+        quoteService.createQuote(quoteModel);
 
-        quoteRepository.save(quoteTimeStamp);
-
-        return new Timestamp(System.currentTimeMillis());
+        return "Quote is CREATED";
     }
 }
