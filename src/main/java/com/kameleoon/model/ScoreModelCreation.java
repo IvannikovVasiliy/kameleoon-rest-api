@@ -7,9 +7,9 @@ import java.sql.Timestamp;
 
 @Data
 @Builder
-public class QuoteModel {
-    private String content;
-    private Timestamp modifyAt;
+public class ScoreModelCreation {
+    private int score;
     private UserDto userDto;
-    private double score;
+    private Timestamp modifyAt;
+    private Long quoteId;
 }

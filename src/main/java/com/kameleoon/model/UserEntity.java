@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
-    public User(String login, String email) {
+    public UserEntity(String login, String email) {
         this.login = login;
         this.email = email;
     }
@@ -26,5 +26,8 @@ public class User {
     private String password;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Quote> quotes;
+    private List<QuoteEntity> quoteEntities;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<ScoreEntity> scores;
 }

@@ -1,6 +1,6 @@
 package com.kameleoon.service;
 
-import com.kameleoon.model.User;
+import com.kameleoon.model.UserEntity;
 import com.kameleoon.model.UserModel;
 import com.kameleoon.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,22 +17,24 @@ public class UserService {
     private final UserRepository userRepository;
 
     public boolean createAuthor(UserModel userModel) {
-        User user = new User(userModel.getLogin(), userModel.getEmail());
-        userRepository.save(user);
+        UserEntity userEntity = new UserEntity(userModel.getLogin(), userModel.getEmail());
+        userRepository.save(userEntity);
 
         return true;
     }
 
     public List<UserModel> getAllAuthors() {
-        List<User> users = userRepository.findAll();
+        List<UserEntity> userEntities = userRepository.findAll();
+
+        System.out.println(userEntities.size());
 
         List<UserModel> res = new ArrayList<>();
-        for (var author : users) {
+        for (var author : userEntities) {
             UserModel userModel = UserModel
                     .builder()
                     .email(author.getEmail())
                     .login(author.getLogin())
-                    .quotes(author.getQuotes()
+                    .quotes(author.getQuoteEntities()
                             .stream()
                             .map(quote -> quote.getContent())
                             .toList())

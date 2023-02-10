@@ -1,17 +1,20 @@
 package com.kameleoon.model;
 
+import lombok.Data;
+
+@Data
 public class UserDto {
     public String email;
     public String login;
 
-    public static UserDto toDto(User user) {
+    public static UserDto toDto(UserEntity userEntity) {
         UserDto userDto = new UserDto();
-        userDto.email = user.getEmail();
-        userDto.login = user.getLogin();
+        userDto.email = userEntity.getEmail();
+        userDto.login = userEntity.getLogin();
         return userDto;
     }
 
-    public User toAuthor() {
-        return new User(email, login);
+    public UserEntity toAuthor() {
+        return new UserEntity(email, login);
     }
 }

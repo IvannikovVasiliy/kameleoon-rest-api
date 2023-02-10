@@ -1,4 +1,4 @@
-package com.kameleoon.model;
+package com.kameleoon.specification;
 
 import lombok.Builder;
 import lombok.Data;
