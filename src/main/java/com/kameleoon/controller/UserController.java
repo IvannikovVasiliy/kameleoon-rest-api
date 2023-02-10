@@ -1,6 +1,5 @@
 package com.kameleoon.controller;
 
-import com.kameleoon.model.User;
 import com.kameleoon.model.UserModel;
 import com.kameleoon.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +15,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserModel> getAllAuthors() {
+        return userService.getAllAuthors();
     }
 
     @PostMapping
-    public String createUser(@RequestBody UserModel userModel) {
-        userService.createUser(userModel);
+    public String createAuthor(@RequestBody UserModel userModel) {
+        userService.createAuthor(userModel);
 
-        return "User is CREATED";
+        return "Author CREATED";
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class QuoteModel {
-    private String text;
-    private UserDto author;
+public class UserSearchCriteria {
+    private String email;
+    private String login;
 }

@@ -2,9 +2,9 @@ package com.kameleoon.service;
 
 
 import com.kameleoon.model.*;
-import com.kameleoon.repository.AuthorRepository;
+import com.kameleoon.repository.UserRepository;
 import com.kameleoon.repository.QuoteRepository;
-import com.kameleoon.specification.AuthorSpecification;
+import com.kameleoon.specification.UserSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +16,21 @@ import java.util.List;
 public class QuoteService {
 
     private final QuoteRepository quoteRepository;
-    private final AuthorRepository authorRepository;
+    private final UserRepository userRepository;
 
     public List<QuoteModel> getAllQuotes() {
         List<Quote> quotes = quoteRepository.findAll();
 
         List<QuoteModel> res = new ArrayList<>();
         for (var q : quotes) {
-            AuthorDto authorDto = new AuthorDto();
-            authorDto.name = q.getAuthor().getName();
-            authorDto.surname = q.getAuthor().getSurname();
-            authorDto.pseudonym = q.getAuthor().getPseudonym();
+            UserDto userDto = new UserDto();
+            userDto.email = q.getUser().getEmail();
+            userDto.login = q.getUser().getLogin();
 
             QuoteModel quoteModel = QuoteModel
                     .builder()
-                    .text(q.getText())
-                    .author(authorDto)
+                    .text(q.getContent())
+                    .author(userDto)
                     .build();
 
             res.add(quoteModel);
@@ -41,15 +40,14 @@ public class QuoteService {
     }
 
     public boolean createQuote(QuoteModel quoteModel) {
-        AuthorSearchCriteria authorSearchCriteria = AuthorSearchCriteria
+        UserSearchCriteria userSearchCriteria = UserSearchCriteria
                 .builder()
-                .name(quoteModel.getAuthor().name)
-                .surname(quoteModel.getAuthor().surname)
-                .pseudonym(quoteModel.getAuthor().pseudonym)
+                .email(quoteModel.getAuthor().email)
+                .login(quoteModel.getAuthor().login)
                 .build();
 
-        Author author = authorRepository.findOne(new AuthorSpecification(authorSearchCriteria)).get();
-        Quote quote = new Quote(quoteModel.getText(), author);
+        User user = userRepository.findOne(new UserSpecification(userSearchCriteria)).get();
+        Quote quote = new Quote(quoteModel.getText(), user);
         quoteRepository.save(quote);
 
         return true;

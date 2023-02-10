@@ -4,5 +4,5 @@ import com.kameleoon.model.Quote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
-    Quote findByText(String text);
+    Quote findByContent(String content);
 }

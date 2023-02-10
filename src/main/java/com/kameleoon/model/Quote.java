@@ -10,18 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Quote {
 
-    public Quote(String text, Author author) {
-        this.text = text;
-        this.author = author;
+    public Quote(String content, User user) {
+        this.content = content;
+        this.user = user;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
-    private Author author;
+    private User user;
 }
