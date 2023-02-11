@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String createUser(@RequestBody UserModel userModel) {
-        String jwt = userService.createAuthor(userModel);
+        String jwt = userService.createUser(userModel);
 
         return jwt;
     }
@@ -31,5 +31,17 @@ public class UserController {
     @PostMapping("/login")
     public String authenticate(@RequestBody UserModel userModel) {
         return userService.authenticate(userModel);
+    }
+
+    @PatchMapping("/{id}/edit")
+    public String editUser(@PathVariable Long id, @RequestBody UserModel userModel) {
+        userService.editUserById(id, userModel);
+        return "The User is EDITED";
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
+        return "The User is DELETED";
     }
 }

@@ -12,5 +12,5 @@ public class UserModel {
     private String login;
     private String password;
     private List<String> quotes;
-    private String role;
+    private String[] roles;
 }

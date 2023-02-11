@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -110,15 +109,14 @@ public class QuoteService {
     }
 
     public QuoteModel getRandomQuote() {
-        Long size = quoteRepository.getCount();
-        Random random = new Random();
-        Long randomValue = random.nextLong(size)+1;
+        Long randomValue = quoteRepository.getRandomId();
 
         QuoteEntity quoteEntity = quoteRepository.findById(randomValue).get();
         return QuoteModel
                 .builder()
                 .content(quoteEntity.getContent())
                 .userDto(UserDto.toDto(quoteEntity.getUser()))
+                .modifyAt(quoteEntity.getModifyAt())
                 .build();
     }
 

@@ -67,14 +67,19 @@ public class UserService {
     }
 
     @Transactional
-    public String createAuthor(UserModel userModel) {
+    public String createUser(UserModel userModel) {
         UserEntity userEntity = new UserEntity(
                 userModel.getLogin(),
                 userModel.getEmail(),
                 passwordEncoder.encode(userModel.getPassword())
         );
-        Role role = roleRepository.findByName(userModel.getRole());
-        userEntity.setRoles(List.of(role));
+
+        List<Role> roles = new ArrayList<>();
+        for (var role : userModel.getRoles()) {
+            Role r = roleRepository.findByName(role);
+            roles.add(r);
+        }
+        userEntity.setRoles(roles);
         userRepository.save(userEntity);
 
         User user = new User(userEntity.getLogin(), userEntity.getPassword(), mappedRoles(userEntity.getRoles()));
@@ -92,5 +97,27 @@ public class UserService {
         System.out.println(resultSet.size());
 
         return resultSet;
+    }
+
+    public void editUserById(Long id, UserModel userModel) {
+        UserEntity userEntity = userRepository.findById(id).get();
+        userEntity.setLogin(userModel.getLogin());
+        userEntity.setEmail(userModel.getEmail());
+        userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
+
+        if (userModel.getRoles() != null) {
+            List<Role> roles = new ArrayList<>();
+            for (var r : userModel.getRoles()) {
+                Role role = roleRepository.findByName(r);
+                roles.add(role);
+            }
+            userEntity.setRoles(roles);
+        }
+
+        userRepository.save(userEntity);
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 }

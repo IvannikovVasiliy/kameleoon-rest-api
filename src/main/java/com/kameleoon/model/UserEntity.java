@@ -3,7 +3,9 @@ package com.kameleoon.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -26,6 +28,10 @@ public class UserEntity {
     private String email;
     private String password;
 
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Timestamp updatedAt;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<QuoteEntity> quoteEntities;
 
@@ -36,6 +42,7 @@ public class UserEntity {
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles"))
+            inverseJoinColumns = @JoinColumn(name = "roles")
+    )
     private List<Role> roles;
 }

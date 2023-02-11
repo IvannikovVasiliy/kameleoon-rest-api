@@ -24,6 +24,7 @@ public class ScoreEntity {
     private Long id;
 
     @UpdateTimestamp
+    @Column(name = "modify_at")
     private Timestamp modifyAt;
 
     private int score;
