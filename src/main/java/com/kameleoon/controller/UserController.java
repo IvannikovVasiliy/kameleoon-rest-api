@@ -1,6 +1,5 @@
 package com.kameleoon.controller;
 
-import com.kameleoon.model.UserEntity;
 import com.kameleoon.model.UserModel;
 import com.kameleoon.repository.UserRepository;
 import com.kameleoon.service.UserService;
@@ -22,10 +21,15 @@ public class UserController {
         return userService.getAllAuthors();
     }
 
-    @PostMapping
-    public String createAuthor(@RequestBody UserModel userModel) {
-        userService.createAuthor(userModel);
+    @PostMapping("/register")
+    public String createUser(@RequestBody UserModel userModel) {
+        String jwt = userService.createAuthor(userModel);
 
-        return "Author CREATED";
+        return jwt;
+    }
+
+    @PostMapping("/login")
+    public String authenticate(@RequestBody UserModel userModel) {
+        return userService.authenticate(userModel);
     }
 }

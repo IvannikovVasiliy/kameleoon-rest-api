@@ -1,7 +1,7 @@
 package com.kameleoon.specification;
 
 import com.kameleoon.model.QuoteEntity;
-import com.kameleoon.model.Quote_;
+import com.kameleoon.model.QuoteEntity_;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -16,11 +16,12 @@ public class QuoteSpecification implements Specification<QuoteEntity> {
     }
 
 
+
     @Override
     public Predicate toPredicate(Root<QuoteEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        Predicate predicateContent = criteriaBuilder.like(root.get(Quote_.CONTENT), "%");
+        Predicate predicateContent = criteriaBuilder.like(root.get(QuoteEntity_.CONTENT), "%");
         if (content != null) {
-            predicateContent = criteriaBuilder.like(root.get(Quote_.CONTENT), "%" + content + "%");
+            predicateContent = criteriaBuilder.like(root.get(QuoteEntity_.CONTENT), "%" + content + "%");
         }
 
         Predicate predicate = criteriaBuilder.and(predicateContent);

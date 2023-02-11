@@ -13,8 +13,4 @@ public class UserDto {
         userDto.login = userEntity.getLogin();
         return userDto;
     }
-
-    public UserEntity toAuthor() {
-        return new UserEntity(email, login);
-    }
 }

@@ -20,7 +20,7 @@ public class ScoreController {
         return scoreService.getAllScores();
     }
 
-    @PostMapping
+    @PostMapping("/add")
     private String addScore(@RequestBody ScoreModelCreation scoreModelCreation) {
         scoreService.addScore(scoreModelCreation);
 

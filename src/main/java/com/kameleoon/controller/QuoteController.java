@@ -34,20 +34,20 @@ public class QuoteController {
         return quoteService.getQuotesByParams(content, userModel);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public String postQuotes(@RequestBody QuoteModel quoteModel) {
         quoteService.createQuote(quoteModel);
         return "Quote is CREATED";
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("{id}/edit")
     public String editQuoteById(@PathVariable Long id, String content) {
         quoteService.editQuote(id, content);
 
         return "Quote is EDITED";
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}/delete")
     public String deleteById(@PathVariable Long id) {
         quoteService.deleteById(id);
 

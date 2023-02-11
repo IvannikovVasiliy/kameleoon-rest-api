@@ -12,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 public class UserEntity {
 
-    public UserEntity(String login, String email) {
+    public UserEntity(String login, String email, String password) {
         this.login = login;
         this.email = email;
+        this.password = password;
     }
 
     @Id
@@ -30,4 +31,11 @@ public class UserEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<ScoreEntity> scores;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles"))
+    private List<Role> roles;
 }

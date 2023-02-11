@@ -10,5 +10,7 @@ import java.util.List;
 public class UserModel {
     private String email;
     private String login;
+    private String password;
     private List<String> quotes;
+    private String role;
 }
