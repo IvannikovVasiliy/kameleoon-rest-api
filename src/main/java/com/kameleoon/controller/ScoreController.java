@@ -17,7 +17,6 @@ public class ScoreController {
     private final ScoreService scoreService;
 
     @GetMapping
-    @Cacheable(cacheNames = "scores")
     public List<ScoreModel> getAllScores() {
         return scoreService.getAllScores();
     }

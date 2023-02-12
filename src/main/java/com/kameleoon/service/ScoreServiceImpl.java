@@ -11,6 +11,7 @@ import com.kameleoon.repository.UserRepository;
 import com.kameleoon.specification.UserSearchCriteria;
 import com.kameleoon.specification.UserSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class ScoreServiceImpl implements ScoreService {
     private final UserRepository userRepository;
     private final QuoteRepository quoteRepository;
 
+    @Cacheable(cacheNames = "scores")
     public List<ScoreModel> getAllScores() {
         List<ScoreEntity> scoreEntities = scoreRepository.findAll();
 

@@ -13,6 +13,7 @@ import com.kameleoon.specification.UserSearchCriteria;
 import com.kameleoon.specification.UserSpecification;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class QuoteServiceImpl implements QuoteService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
+    @Cacheable(cacheNames = "quotes")
     public List<QuoteDto> getAllQuotes(PageDto pageDto) {
         Page<QuoteEntity> quotes = quoteRepository.findAll(pageDto.pageable());
 

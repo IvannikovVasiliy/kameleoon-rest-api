@@ -2,6 +2,6 @@ version: '3'
 services:
   news:
     container_name: kameleoon
-    build: ./
+    build: .
     ports:
-      - "8080:8080"
+      - "8081:8080"

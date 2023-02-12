@@ -19,7 +19,6 @@ public class QuoteController {
     private final QuoteService quoteService;
 
     @GetMapping
-    @Cacheable(cacheNames = "quotes")
     public List<QuoteDto> getAllQuotes(@ModelAttribute PageDto pageDto) {
         return quoteService.getAllQuotes(pageDto);
     }
