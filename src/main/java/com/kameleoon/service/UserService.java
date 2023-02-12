@@ -15,4 +15,6 @@ public interface UserService {
     ResponseUserModifModel createUser(UserModel userModel);
     ResponseUserModifModel editUserById(Long id, UserModel userModel);
     String deleteById(Long id);
+
+    ResponseUserModel getUserById(Long id);
 }

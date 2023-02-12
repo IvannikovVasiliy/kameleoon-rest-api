@@ -56,7 +56,7 @@ public class QuoteServiceImpl implements QuoteService {
         jwt = authHeader.substring(7);
         login = jwtService.extractUsername(jwt);
 
-        UserEntity userEntity = userRepository.findByLogin(login);
+        UserEntity userEntity = userRepository.findByLogin(login).get();
         QuoteEntity quoteEntity = new QuoteEntity(content, userEntity);
         quoteEntity.setId(1L);
         quoteRepository.save(quoteEntity);

@@ -2,9 +2,13 @@ package com.kameleoon.service;
 
 import com.kameleoon.entity.Role;
 import com.kameleoon.entity.UserEntity;
+import com.kameleoon.handler.ResourceAlreadyExistsException;
+import com.kameleoon.handler.ResourceNotFoundException;
 import com.kameleoon.model.*;
 import com.kameleoon.repository.RoleRepository;
 import com.kameleoon.repository.UserRepository;
+import com.kameleoon.specification.UserSearchCriteria;
+import com.kameleoon.specification.UserSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,7 +65,7 @@ public class UserServiceImpl implements UserService {
                 )
         );
 
-        var userEntity = userRepository.findByLogin(userModel.getLogin());
+        var userEntity = userRepository.findByLogin(userModel.getLogin()).get();
         User user = new User(userEntity.getLogin(), userEntity.getPassword(), mappedRoles(userEntity.getRoles()));
 
         var jwtToken = jwtService.generateToken(user);
@@ -70,6 +74,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseUserModifModel createUser(UserModel userModel) {
+        UserSearchCriteria userSearchCriteria = UserSearchCriteria
+                .builder()
+                .email(userModel.getEmail())
+                .login(userModel.getLogin())
+                .build();
+        if (userRepository.exists(new UserSpecification(userSearchCriteria))) {
+            throw new ResourceAlreadyExistsException("The usrer with such name already exists");
+        }
+
         UserEntity userEntity = new UserEntity(
                 userModel.getLogin(),
                 userModel.getEmail(),
@@ -104,7 +117,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseUserModifModel editUserById(Long id, UserModel userModel) {
-        UserEntity userEntity = userRepository.findById(id).get();
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("The user with the id does not exist"));
 
         if (userModel.getLogin() != null) {
             userEntity.setLogin(userModel.getLogin());
@@ -136,9 +149,25 @@ public class UserServiceImpl implements UserService {
     }
 
     public String deleteById(Long id) {
-        String login = userRepository.findById(id).get().getLogin();
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("The user with the id does not exist"));
+
+        String login = userEntity.getLogin();
         userRepository.deleteById(id);
 
         return login;
+    }
+
+    @Override
+    public ResponseUserModel getUserById(Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "The user with id=" + id + " does not exist."
+        ));
+
+        return ResponseUserModel
+                .builder()
+                .updatedAt(userEntity.getUpdatedAt())
+                .login(userEntity.getLogin())
+                .email(userEntity.getEmail())
+                .build();
     }
 }

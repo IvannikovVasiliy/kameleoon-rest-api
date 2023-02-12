@@ -4,6 +4,7 @@ import com.kameleoon.model.ScoreModel;
 import com.kameleoon.model.ScoreModelCreation;
 import com.kameleoon.service.ScoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class ScoreController {
     private final ScoreService scoreService;
 
     @GetMapping
+    @Cacheable(cacheNames = "scores")
     public List<ScoreModel> getAllScores() {
         return scoreService.getAllScores();
     }
