@@ -1,0 +1,120 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTableRoles
+      author: ivannikov
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_id_roles
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+  - changeSet:
+      id: createTableUsers
+      author: ivannikov
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_id_users
+                    nullable: false
+              - column:
+                  name: login
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(64)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  defaultValue: current_timestamp
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: createTableUserrole
+      author: ivannikov
+      changes:
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: roles
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: addForeignKeysUserRole
+      author: ivannikov
+      changes:
+      -  addForeignKeyConstraint:
+          baseColumnNames: user_id
+          baseTableName: user_role
+          constraintName: fk_userid_userrole
+          onDelete: CASCADE
+          referencedColumnNames: id
+          referencedTableName: users
+      - addForeignKeyConstraint:
+          baseColumnNames: roles
+          baseTableName: user_role
+          constraintName: fk_role_roles
+          onDelete: CASCADE
+          referencedColumnNames: id
+          referencedTableName: roles
+
+  - changeSet:
+      id: insertDefaultValuesIntoRoles
+      author: ivannikov
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: name
+                  value: ADMIN
+            tableName: roles
+
+  - changeSet:
+      id: insertDefaultValuesIntoRoleUSER
+      author: ivannikov
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: name
+                  value: USER
+            tableName: roles

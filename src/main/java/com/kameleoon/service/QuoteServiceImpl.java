@@ -58,6 +58,7 @@ public class QuoteServiceImpl implements QuoteService {
 
         UserEntity userEntity = userRepository.findByLogin(login);
         QuoteEntity quoteEntity = new QuoteEntity(content, userEntity);
+        quoteEntity.setId(1L);
         quoteRepository.save(quoteEntity);
 
         return true;

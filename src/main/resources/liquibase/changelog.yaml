@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+        file: liquibase/changes/changelog-users-roles.yaml
+  - include:
+      file: liquibase/changes/changelog-scores-quotes.yaml

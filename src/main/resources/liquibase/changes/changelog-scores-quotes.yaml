@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTableScores
+      author: ivannikov
+      changes:
+        - createTable:
+            tableName: scores
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_id_scores
+                    nullable: false
+              - column:
+                  name: score
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: modify_at
+                  type: timestamp with time zone
+                  defaultValue: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quote_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: createTableQuotes
+      author: ivannikov
+      changes:
+        - createTable:
+            tableName: quotes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_id_quotes
+                    nullable: false
+              - column:
+                  name: content
+                  type: nvarchar(8000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: modify_at
+                  type: timestamp with time zone
+                  defaultValue: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: addForeignKeysQuote
+      author: ivannikov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: quotes
+            constraintName: fk_userid_quotes
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: users
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: scores
+            constraintName: fk_userid_scores
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: users
+        - addForeignKeyConstraint:
+            baseColumnNames: quote_id
+            baseTableName: scores
+            constraintName: fk_quoteid_scores
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: quotes

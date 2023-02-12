@@ -29,8 +29,8 @@ public class QuoteEntity {
     @UpdateTimestamp
     private Timestamp modifyAt;
 
-    @OneToMany
-    @JoinColumn(name = "quote_id")
+    @OneToMany(mappedBy = "quote")
+//    @JoinColumn(name = "quote_id")
     private List<ScoreEntity> scores;
 
     @ManyToOne(fetch = FetchType.LAZY)
