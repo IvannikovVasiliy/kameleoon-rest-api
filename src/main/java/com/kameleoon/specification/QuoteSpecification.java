@@ -1,6 +1,6 @@
 package com.kameleoon.specification;
 
-import com.kameleoon.model.QuoteEntity;
+import com.kameleoon.entity.QuoteEntity;
 import com.kameleoon.model.QuoteEntity_;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

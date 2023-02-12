@@ -1,6 +1,6 @@
 package com.kameleoon.specification;
 
-import com.kameleoon.model.UserEntity;
+import com.kameleoon.entity.UserEntity;
 import com.kameleoon.model.UserEntity_;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

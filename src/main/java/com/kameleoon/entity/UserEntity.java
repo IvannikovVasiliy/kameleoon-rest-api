@@ -1,5 +1,8 @@
-package com.kameleoon.model;
+package com.kameleoon.entity;
 
+import com.kameleoon.entity.QuoteEntity;
+import com.kameleoon.entity.Role;
+import com.kameleoon.entity.ScoreEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

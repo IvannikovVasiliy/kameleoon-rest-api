@@ -1,7 +1,10 @@
 package com.kameleoon.controller;
 
+import com.kameleoon.dto.PageDto;
+import com.kameleoon.dto.QuoteDto;
 import com.kameleoon.model.*;
 import com.kameleoon.service.QuoteService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +18,7 @@ public class QuoteController {
     private final QuoteService quoteService;
 
     @GetMapping
-    public List<QuoteModel> getAllQuotes(@ModelAttribute PageDto pageDto) {
+    public List<QuoteDto> getAllQuotes(@ModelAttribute PageDto pageDto) {
         return quoteService.getAllQuotes(pageDto);
     }
 
@@ -30,27 +33,27 @@ public class QuoteController {
     }
 
     @GetMapping("/params")
-    public List<QuoteModel> getQuotesByParams(String content, @ModelAttribute UserModel userModel) {
+    public List<QuoteDto> getQuotesByParams(String content, @ModelAttribute UserModel userModel) {
         return quoteService.getQuotesByParams(content, userModel);
     }
 
     @PostMapping("/create")
-    public String postQuotes(@RequestBody QuoteModel quoteModel) {
-        quoteService.createQuote(quoteModel);
-        return "Quote is CREATED";
+    public String postQuotes(String content, HttpServletRequest request) {
+        quoteService.createQuote(content, request);
+        return "Quote with content=\"" + content + "\" is ADDED";
     }
 
     @PatchMapping("{id}/edit")
     public String editQuoteById(@PathVariable Long id, String content) {
         quoteService.editQuote(id, content);
 
-        return "Quote is EDITED";
+        return "Quote with content=\"" + content + " \" is EDITED";
     }
 
     @DeleteMapping("{id}/delete")
     public String deleteById(@PathVariable Long id) {
-        quoteService.deleteById(id);
+        String name = quoteService.deleteById(id);
 
-        return "Quote is DELETED";
+        return "Quote \"" + name + "\" is DELETED";
     }
 }

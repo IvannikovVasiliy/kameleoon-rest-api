@@ -1,9 +1,12 @@
 package com.kameleoon.controller;
 
+import com.kameleoon.model.ResponseUserModifModel;
+import com.kameleoon.model.ResponseUserModel;
 import com.kameleoon.model.UserModel;
-import com.kameleoon.repository.UserRepository;
 import com.kameleoon.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,34 +17,34 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @GetMapping
-    public List<UserModel> getAllAuthors() {
-        return userService.getAllAuthors();
+    public ResponseEntity<List<ResponseUserModel>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public String createUser(@RequestBody UserModel userModel) {
-        String jwt = userService.createUser(userModel);
+    public ResponseEntity<ResponseUserModifModel> createUser(@RequestBody UserModel userModel) {
+        ResponseUserModifModel response = userService.createUser(userModel);
 
-        return jwt;
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public String authenticate(@RequestBody UserModel userModel) {
-        return userService.authenticate(userModel);
+    public ResponseEntity<String> authenticate(@RequestBody UserModel userModel) {
+        String jwt = userService.authenticate(userModel);
+        return new ResponseEntity(jwt, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/edit")
-    public String editUser(@PathVariable Long id, @RequestBody UserModel userModel) {
-        userService.editUserById(id, userModel);
-        return "The User is EDITED";
+    public ResponseEntity<ResponseUserModifModel> editUser(@PathVariable Long id, @RequestBody UserModel userModel) {
+        ResponseUserModifModel response = userService.editUserById(id, userModel);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
-        return "The User is DELETED";
+        String nameDeletedUser = userService.deleteById(id);
+        return "The User \"" + nameDeletedUser + "\" is DELETED";
     }
 }

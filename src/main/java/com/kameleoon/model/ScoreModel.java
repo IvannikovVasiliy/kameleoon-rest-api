@@ -1,5 +1,6 @@
 package com.kameleoon.model;
 
+import com.kameleoon.dto.UserDto;
 import lombok.Builder;
 import lombok.Data;
 

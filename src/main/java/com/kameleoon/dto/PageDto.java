@@ -1,4 +1,4 @@
-package com.kameleoon.model;
+package com.kameleoon.dto;
 
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;

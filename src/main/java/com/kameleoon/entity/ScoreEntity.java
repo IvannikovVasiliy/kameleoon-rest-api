@@ -1,4 +1,4 @@
-package com.kameleoon.model;
+package com.kameleoon.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
